@@ -820,7 +820,7 @@ def SMC_method(gen_data, num_particles, num_tries=5, plotting=False):
     
     # If the plotting setting is set to True, call the function to plot the gene data
     if plotting == True:
-        data_plotting(gen_data, False, gen_data.spline_fitted_values) # The default mode to call the function is without showing the smoothing spline. Switch it to true if you wish to show the smoothing spline.
+        data_plotting(gen_data, spline=False, gen_data.spline_fitted_values) # The default mode to call the function is without showing the smoothing spline. Switch it to true if you wish to show the smoothing spline.
 
     # Return the list of all the SMC objects that contain all the information of the SMC methods
     return all_SMC
@@ -919,23 +919,19 @@ for name in gen_dict.keys():
 
 # %% Execute the SMC method for all genes
 
-# Initialize an empty dictionary that will contain the name of the genes for which the SMC method has been applied, sorted by speed
-already_done_genes = {}
+# Initialize an empty list that will contain the name of the genes for which the SMC method has already been applied
+already_done_genes = []
 
 num_particles = 250     # Set this to the number of particles you want to run the method with
 num_tries = 5           # Set this to the number of iterations of the method you want to run
 
-# For each of the speed tags, do:
-for speed in sorted_gen_dict.keys():
-    # Initialize the gens dictionary value at that speed tag to be an empty list
-    already_done_genes[speed] = []
-    # For all the genes with that speed tag, do:
-    for name in sorted_gen_dict[speed]:
-        # If the gene has not real_counts attribute, then the SMC method has not been applied to it yet, so save its name in gens dictionary, print it and apply the SMC method to it
-        if hasattr(gen_dict[name],'real_counts')==False:
-            SMC_method(gen_dict[name], num_particles, num_tries)
-            already_done_genes[speed].append(name)
-            print(name)
+# For all the genes with that speed tag, do:
+for name in gen_dict:
+    # If the gene has not real_counts attribute, then the SMC method has not been applied to it yet, so save its name in gens dictionary, print it and apply the SMC method to it
+    if hasattr(gen_dict[name],'real_counts')==False:
+        SMC_method(gen_dict[name], num_particles, num_tries, plotting=False)
+        already_done_genes.append(name)
+        print(name)
 
 # %% Generate the boxplots of the genes length, sorted by speed tag, in order to visualize any possible trends
 count = 0
