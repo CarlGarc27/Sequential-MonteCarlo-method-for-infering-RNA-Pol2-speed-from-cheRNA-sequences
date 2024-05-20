@@ -1,0 +1,7 @@
+The GenomeWide_MonteCarlo... file executes a recurrent statistical method known as Sequential MonteCarlo (SMC) method to infer the average RNA Pol II speed along the first intron of the genes.
+This document serves as a guideline to use the code without necessarily understanding it. To do this, first it has to be noted that the code is structured in mainly 3 parts:
+      
+      - Classes and functions definitions: the first part of the code consists of all the libraries, classes and functions definitions that are needed to run the SMC method. A user with a good python level can
+                                           overview this part and modify it if they need any changes of the method.
+      
+      - SMC genome wide execution: This part is the first executable part of the code
