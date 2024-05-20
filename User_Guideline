@@ -4,4 +4,41 @@ This document serves as a guideline to use the code without necessarily understa
       - Classes and functions definitions: the first part of the code consists of all the libraries, classes and functions definitions that are needed to run the SMC method. A user with a good python level can
                                            overview this part and modify it if they need any changes of the method.
       
-      - SMC genome wide execution: This part is the first executable part of the code
+      - SMC genome wide execution: This part is the first executable part of the code. It starts on the block "# %% Create dictionary of genes from the BED files" and ends on the 
+                                    "# %% Execute the SMC method for all genes" block. This part of the code reads the data of the genes from BED (or txt) files and stores it on a dictionary.
+                                    After this, it eliminates the genes that have a bad "behaviour" and then executes the SMC method to all the "good genes". This part is the only one where 
+                                    the user needs to do some changes for it to work. These changes are:
+
+                                          + Genes files: the user needs to change the 'gen_crick_file_path' and 'gen_watson_file_path' variables to the path of the files containing the data
+                                                         of the crick and watson strand respectively. These files must have a certain structure, namely, each line of the file must be in the
+                                                         following format: "chromosome \tab base \tab \tab count at that base \tab gene name \tab gene strand \tab WT speed tag \tab TKO speed tag"
+                                                         However a few changes can easily be made according to the available data. If the user only has the Wild Typy speed tag for your genes, or no
+                                                         speed tags at all, simply comment lines 110 and 111 by writting '#' at the start of the lines; and in line 115, erase the part "wt_speed, tko_speed".
+                                                         Then the user also needs to change the 'reads_file_path' to the path of the file containing the data of the reads of the genes. This file
+                                                         must have the format " \tab \tab \tab gene name \tab \tab gene reads". It is important to note that this part also works if the user has only one 
+                                                         file with the data of all the genes. If that is the case, assign that file path to 'gen_crick_file_path' variable and comment the lines 837 and 844 
+                                                         by writting '#' at the start of the lines.  
+
+                                          + Results files: After that, the user has to do some changes to store the results of the SMC method. They must change the variable 'main_directory_path' to the path where
+                                                           they wish to store the results. Then, they have to change the 'SMC_result', 'SMC_process' and 'Predicted_slopes' variables to the wanted name of the folders
+                                                           that will store the data corresponding to the SMC method results, the internal process of the SMC method and the predicted slopes by the SMC method.
+
+                                          + SMC method values: Finally, the user needs to change the variables 'num_particles' and 'num_tries' to the number of particles to be used for the SMC method and the number of
+                                                               times the SMC method will run, respectively. Usually values of 250 for 'num_particles' and 5 for 'num_tries' is good enough, and values of 1000 for 
+                                                               'num_particles' and 10 for 'num_tries' should provide very good results. It is important to note that the higher these values the longer the code takes to run.
+                                                               Additionally, the user can choose to plot the results of the SMC method. To do so, in line 932, change the plotting parameter to True. IF moreover the user
+                                                               whishes that the smoothing spline applied to the gene to be plotted too, simply change the 'spline' parameter in line 823 to True.
+      
+                                    
+      - Visual representation of results: This part visually represents the results obtained in the previous part. It goes from "# %% Generate the boxplots of the genes length..." block to 
+                                          the "# %% Boxplot of the second derivatives of the expected reads..." block. It is really important to note that this part only works if the user has
+                                          a Wild Type speed tag for the genes.
+
+      - New genes prediction: this last part uses some genes for which the speed tag is known to predict the speed tag of other genes. Obviously, this part only work if the user has the speed tag 
+                              of some genes. The default speed tag to be predicted is Wild Type, but the user can modify this by changing all 'wt_speed' to 'tko_speed' in this part.
+                              It is also important to note that the accuracy calculations performed at the end of the prediction will only work if the true speed tag for the predicted genes is known.
+
+After doing these changes, the user can you run the code and everything will be done automatically. However, the user can then also run each one of the parts separately, for example if any changes to
+the speed tags has been done, or if they wish to change the 'num_particles' or 'num_tries' parameters.
+
+If the user has any question or can't run the code, don't hesitate to contact cgarcia.tecno.3d@gmail.com for additional support.
