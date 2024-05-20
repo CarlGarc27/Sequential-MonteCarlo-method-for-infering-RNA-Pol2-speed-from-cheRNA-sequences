@@ -925,7 +925,7 @@ already_done_genes = []
 num_particles = 250     # Set this to the number of particles you want to run the method with
 num_tries = 5           # Set this to the number of iterations of the method you want to run
 
-# For all the genes with that speed tag, do:
+# For all the genes in the dictionary, do:
 for name in gen_dict:
     # If the gene has not real_counts attribute, then the SMC method has not been applied to it yet, so save its name in gens dictionary, print it and apply the SMC method to it
     if hasattr(gen_dict[name],'real_counts')==False:
